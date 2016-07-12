@@ -64,7 +64,7 @@ data:
   entrypoint: /bin/true
   net: none
   volumes:
-  - /data
+    - etcd_data:/data
   labels:
     io.rancher.container.start_once: 'true'
 
