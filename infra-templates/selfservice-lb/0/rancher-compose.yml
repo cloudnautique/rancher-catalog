@@ -1,0 +1,18 @@
+version: '2'
+.catalog:
+  minimum_rancher_version: "v1.5.1"
+  version: "v0.1.0-1"
+  description: "Self Service Load Balancer"
+  Maintainer: Rancher Engineering
+  questions:
+    - variable: "PUBLIC_PORTS"
+      type: "string"
+      default: "80/HTTP 443/HTTPS"
+      required: true
+      label: "Ports"
+      description: "Space separated list of PORT/PROTO to expose. Default PROTO is http"
+    - variable: "SSL_CERTIFICATE"
+      type: "certificate"
+      required: false
+      label: "SSL Cert"
+      description: "SSL Cert to be used on SSL Port"

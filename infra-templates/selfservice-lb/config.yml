@@ -1,0 +1,8 @@
+name: "Environment Router"
+description: |
+  "LB Service that allows users to chose to expose services on routed ports"
+version: "v0.1.0-1"
+category: Network Ingress
+labels:
+  io.rancher.orchestration.supported: 'cattle'
+  io.rancher.certified: "Experimental"

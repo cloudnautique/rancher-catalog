@@ -1,0 +1,29 @@
+version: '2'
+services:
+  env-ingress-lb:
+    image: rancher/lb-service-haproxy:v0.6.2
+    ports:
+    {{- range $idx, $e := .Values.PUBLIC_PORTS | trimAll "\"" | split " " }}
+      - {{ $v := $e | split "/" }}{{$v._0}}:{{$v._0}}
+    {{- end }}
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.create_agent: 'true'
+      io.rancher.agent.role: environmentAdmin
+    lb_config:
+      {{- if .Values.SSL_CERTIFICATE}}
+      certs: []
+      default_cert: {{.Values.SSL_CERTIFICATE | trimAll "\"" }}
+      {{- end}}
+      port_rules:
+        {{- range $idx, $e := .Values.PUBLIC_PORTS | trimAll "\"" | split " " }}
+        - source_port: {{ $v := $e | split "/" }}{{$v._0}}
+          selector: enable={{$v._0}}
+          protocol: {{if not $v._1}}http{{else}}{{$v._1}}{{end}}
+        {{- end }}
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      interval: 2000
